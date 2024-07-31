@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  deliverbike:
+    build:
+      context: .
+      dockerfile: Deliver.Bike.API/Dockerfile
+    environment:
+      ConnectionStrings__DatabaseConnection: ${DATABASECONNECTION}
+      AWS_ACCESS_KEYID: ${AWSACCESSKEYID}
+      AWS_SECRETKEY: ${AWSSECRETKEY}
+      AWS_BUCKETNAME: ${AWSBUCKETNAME}
+    ports:
+      - "8080:80"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - dbData:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8086:8080"
+volumes:
+  dbData:
+    
